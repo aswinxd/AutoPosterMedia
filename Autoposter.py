@@ -24,8 +24,8 @@ async def forward_messages(user_id, source_channel_id, destination_channel_id, b
     async with client:
         async for message in client.iter_messages(int(source_channel_id), reverse=True):
             if post_counter >= batch_size:
-                await asyncio.sleep(delay)  # Wait for the specified delay before sending the next batch
-                post_counter = 0  # Reset the post counter after sending a batch
+                await asyncio.sleep(delay)  
+                post_counter = 0  
 
             if message.photo or message.video:
                 try:
