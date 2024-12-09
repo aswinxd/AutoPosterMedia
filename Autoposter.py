@@ -3,24 +3,21 @@ from telethon.errors import FloodWaitError
 import asyncio
 import motor.motor_asyncio
 
-# Your API ID, API hash, and bot token  
+
 api_id = 12799559
 api_hash = '077254e69d93d08357f25bb5f4504580'
-bot_token = '6876062883:AAHubxW69dBDrnPNAysxtQh0HFL1DcuuSYU'
+bot_token = ''
 
-# Initialize the Telegram client and bot
+
 client = TelegramClient('user_session', api_id, api_hash)
 bot = TelegramClient('bot_session', api_id, api_hash).start(bot_token=bot_token)
 
-# Initialize MongoDB client
-mongo_client = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://test:test@cluster0.q9llhnj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+
+mongo_client = motor.motor_asyncio.AsyncIOMotorClient('mongodb+srv://test:test@cluster0.q9llhnj.mongodr0')
 db = mongo_client['telegram_bot']
 collection = db['schedules']
-
-# Dictionary to keep track of tasks
 tasks = {}
 
-# Function to forward messages
 async def forward_messages(user_id, source_channel_id, destination_channel_id, batch_size, delay):
     post_counter = 0
 
@@ -42,12 +39,12 @@ async def forward_messages(user_id, source_channel_id, destination_channel_id, b
 
             if user_id not in tasks or tasks[user_id].cancelled():
                 break
-# Event handler for starting the bot
+
 @bot.on(events.NewMessage(pattern='/start'))
 async def start(event):
     user_id = event.sender_id
 
-    # Check if the user already exists in the MongoDB collection
+
     user_data = await collection.find_one({'user_id': user_id})
 
     if user_data:
@@ -86,7 +83,6 @@ async def start(event):
         if confirmation.text.lower() != 'yes':
             await conv.send_message('Schedule setup cancelled.')
             return
-        # Store the schedule in the MongoDB collection
         await collection.update_one(
             {'user_id': user_id},
             {'$set': {
@@ -99,14 +95,13 @@ async def start(event):
 
         await conv.send_message(f'Forwarding messages from {source_channel_id.text} to {destination_channel_id.text} every {delay.text} seconds...')
 
-        # Start forwarding messages
+
         task = asyncio.create_task(forward_messages(user_id, int(source_channel_id.text), int(destination_channel_id.text), int(post_limit.text), int(delay.text)))
         tasks[user_id] = task
 
         await conv.send_message(f'Schedule details:\nSource Channel ID: {source_channel_id.text}\nDestination Channel ID: {destination_channel_id.text}\nPost Limit: {post_limit.text}\nDelay: {delay.text} seconds')
 
 
-# Event handler for creating a new schedule
 #@bot.on(events.NewMessage(pattern='/newschedule'))
 #async def new_schedule(event):
 @bot.on(events.NewMessage(pattern='/newschedule'))
@@ -144,7 +139,7 @@ async def new_schedule(event):
             await conv.send_message('Schedule setup cancelled.')
             return
 
-        # Update the schedule in the MongoDB collection
+        
         await collection.update_one(
             {'user_id': user_id},
             {'$set': {
@@ -158,15 +153,15 @@ async def new_schedule(event):
 
         await conv.send_message(f'Forwarding messages from {source_channel_id.text} to {destination_channel_id.text} every {delay.text} seconds...')
 
-        # Cancel any existing task
+    
         if user_id in tasks and not tasks[user_id].cancelled():
             tasks[user_id].cancel()
-        # Start forwarding messages
+    
         task = asyncio.create_task(forward_messages(user_id, int(source_channel_id.text), int(destination_channel_id.text), int(post_limit.text), int(delay.text)))
         tasks[user_id] = task
 
         await conv.send_message(f'Schedule details:\nSource Channel ID: {source_channel_id.text}\nDestination Channel ID: {destination_channel_id.text}\nPost Limit: {post_limit.text}\nDelay: {delay.text} seconds')
-# Event handler for stopping the forwarding process   
+  
 @bot.on(events.NewMessage(pattern='/stop'))
 async def stop(event):
     user_id = event.sender_id
@@ -177,8 +172,8 @@ async def stop(event):
     else:
         await event.respond('No active forwarding process found.')
 
-# Run the bot
+
 bot.start(bot_token=bot_token)
 
-# Run the event loop indefinitely
+#itely
 asyncio.get_event_loop().run_forever()
