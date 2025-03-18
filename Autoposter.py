@@ -9,7 +9,7 @@ api_id = 12799559
 api_hash = '077254e69d93d08357f25bb5f4504580'
 bot_token = '7731502476:AAH5wGADaXJjGSGkfRY-Uq6t7uYFCmvsb-w'
 
-session_string = "here"
+session_string = "1BVtsOIkBu5UquIaTyt76LbMAbOOrschZBf-uoeTqa40bYLLEeRThRhzJN8n3k1huRoATYFcLiLv6CJ7NNaeIthPSwLNKbzn3YU5C-a_gdz92hnzz8roR8i_fDZC4Sb_xpqLcAwsVPTsyHO30HoVTIWkTHohR8nIk3w7xf4lbmWxhIH9beZGE83_5awA0XdcyMZKPAMmt8be9Nd9RIeLcqsair2ZDUhA92ixQ0_Gse8IFoJ0RP--DskXe160nAg8gIehKjIUtlnfxc46uw8Ab6zB9Qe9E4pNF40pG2iMM4UkewbW8oi7RWgGkJmvk2OP3mTX5DtQkwbLXmUigM8yLmL9GRTGNbd0="
 
 client = TelegramClient(StringSession(session_string), api_id, api_hash)
 bot = TelegramClient('bot_session', api_id, api_hash).start(bot_token=bot_token)
