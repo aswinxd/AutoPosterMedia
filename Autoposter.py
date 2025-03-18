@@ -6,7 +6,7 @@ import motor.motor_asyncio
 
 api_id = 12799559
 api_hash = '077254e69d93d08357f25bb5f4504580'
-bot_token = '\7731502476:AAH5wGADaXJjGSGkfRY-Uq6t7uYFCmvsb-w'
+bot_token = '7731502476:AAH5wGADaXJjGSGkfRY-Uq6t7uYFCmvsb-w'
 
 
 client = TelegramClient('user_session', api_id, api_hash)
