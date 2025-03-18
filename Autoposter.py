@@ -2,14 +2,16 @@ from telethon import TelegramClient, events
 from telethon.errors import FloodWaitError
 import asyncio
 import motor.motor_asyncio
-
+from telethon.sync import TelegramClient
+from telethon.sessions import StringSession
 
 api_id = 12799559
 api_hash = '077254e69d93d08357f25bb5f4504580'
 bot_token = '7731502476:AAH5wGADaXJjGSGkfRY-Uq6t7uYFCmvsb-w'
 
+session_string = "here"
 
-client = TelegramClient('user_session', api_id, api_hash)
+client = TelegramClient(StringSession(session_string), api_id, api_hash)
 bot = TelegramClient('bot_session', api_id, api_hash).start(bot_token=bot_token)
 
 
